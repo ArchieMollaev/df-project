@@ -54,6 +54,6 @@ angular.module('application', ['ngRoute'])
  .controller('FooterController', ['$scope', FooterController])
  .controller('MainController', ['$timeout', MainController])
  .controller('CalcController', ['$scope', CalcController])
- .controller('Blog', ['scope', Blog])
+ .controller('Blog', ['$scope', Blog])
 
  

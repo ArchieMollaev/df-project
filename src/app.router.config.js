@@ -1,4 +1,5 @@
 export default function routerSettings($routeProvider, $locationProvider) {
+	$locationProvider.hashPrefix('')
 	$routeProvider
 	.when('/', {
 		templateUrl: '/src/views/main.html',
@@ -29,8 +30,8 @@ export default function routerSettings($routeProvider, $locationProvider) {
 		controller:'Blog'
 	})
 	.otherwise({ redirectTo: '/' });
-	$locationProvider.html5Mode({
-	  enabled: true,
-	  requireBase: false
-	});
+	// $locationProvider.html5Mode({
+	//   enabled: true,
+	//   requireBase: false
+	// });
 };
