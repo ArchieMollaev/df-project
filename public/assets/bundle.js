@@ -1471,7 +1471,7 @@ var menuList = [];
 setTimeout(function () {
 
     _api.MenuApi.getMenu().then(function (data) {
-        data.feed.entry.forEach(function (x, i, arr) {
+        data.values.forEach(function (x, i, arr) {
             if (!((i + 1) % 11)) {
                 var prod = {};
                 prod['day7'] = arr[i]['gs$cell']['$t'];
@@ -37003,7 +37003,7 @@ function Menu($scope, $timeout, menu, $route, $rootScope, $location) {
         if ($scope.menuList == false) {
             $scope.menuList = [];
             _api.MenuApi.getMenu().then(function (data) {
-                data.feed.entry.forEach(function (x, i, arr) {
+                data.values.forEach(function (x, i, arr) {
                     if (!((i + 1) % 11)) {
                         var prod = {};
                         prod['day7'] = arr[i]['gs$cell']['$t'];
@@ -37529,7 +37529,7 @@ var _request2 = _interopRequireDefault(_request);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var googleHost = 'https://spreadsheets.google.com/feeds/cells/1V8aFVQE9vJ1mYIL-FpLBIKhlP4-aXmb1sOwfwshKvWI/1/public/values?alt=json';
+var googleHost = "https://sheets.googleapis.com/v4/spreadsheets/1V8aFVQE9vJ1mYIL-FpLBIKhlP4-aXmb1sOwfwshKvWI/values/'админ учет'?key=AIzaSyAkOpNzxNQDeGUTOXa4HPXguCFfXcKzQs8";
 var serverHost = 'http://node2.fe.a-level.com.ua';
 
 var getMenu = exports.getMenu = function getMenu() {
