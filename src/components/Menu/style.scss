@@ -36,12 +36,7 @@
     }
   
     &-body {
-      
-      &-show {
-        transform: translateY(0);
-        visibility: visible;
-      }
-  
+
       &-close {
         cursor: pointer;
         position: absolute;
@@ -52,7 +47,7 @@
         color: rgb(61, 60, 60);
         font-size: 15px;
       }
-      
+
       display: flex;
       flex-wrap: nowrap;
       justify-content: space-between;
@@ -71,6 +66,11 @@
       transform: translateY(-100%);
       transition: all 0.7s ease;
       visibility: hidden;
+
+      &-show {
+        transform: translateY(0) !important;
+        visibility: visible !important;
+      }
   
       &-comments {
         overflow: auto;

@@ -34,10 +34,12 @@ export default function Menu($scope, $timeout, menu, $route, $rootScope, $locati
     };
     
     $scope.get = (() => {
-        if ($scope.menuList == false) {
+        console.log('$scope.get called, menuList:', $scope.menuList);
+        if ($scope.menuList == false || ($scope.menuList && $scope.menuList.length === 0)) {
             $scope.menuList = [];
             MenuApi.getMenu()
                 .then(data => {
+                    console.log('Menu API response:', data);
                     data.values.forEach(function(row, index) {
                         if (index === 0) return; // skip header row
                         let prod = {
@@ -55,9 +57,14 @@ export default function Menu($scope, $timeout, menu, $route, $rootScope, $locati
                         };
                         $scope.menuList.push(prod);
                     })
-                    $scope.$apply();
+                    console.log('MenuList populated:', $scope.menuList);
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
                 })
-                .catch(errors => { console.log(errors) })
+                .catch(errors => {
+                    console.error('Menu API error:', errors);
+                })
         }
     })()
     $scope.basketItemsOnload = (() => {
@@ -65,6 +72,13 @@ export default function Menu($scope, $timeout, menu, $route, $rootScope, $locati
         $scope.basket ? null : $scope.basket = [];
     })()
     $scope.show = (index) => {
+        console.log('show() called with index:', index);
+        console.log('Current menuList:', $scope.menuList);
+        if (!$scope.menuList || !$scope.menuList[index]) {
+            console.error('Menu item not found at index:', index, 'menuList:', $scope.menuList);
+            return;
+        }
+        console.log('Menu item found:', $scope.menuList[index]);
         let title = $scope.menuList[index].name,
             routeTitle = title.toLowerCase().replace(/\s/ig, '_');
         $location.path(`/menu/${ translit(routeTitle) }`, false);
@@ -83,8 +97,22 @@ export default function Menu($scope, $timeout, menu, $route, $rootScope, $locati
             $scope[`day${i}`] = $scope.menuList[index][`day${i}`];
         }
         $scope.modalStatus = true;
+        console.log('modalStatus set to:', $scope.modalStatus);
         MenuApi.getPosts({ title })
-        .then((data) => $scope.comments = [...data] )
+        .then((data) => {
+            console.log('Comments loaded:', data);
+            $scope.comments = [...data];
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        })
+        .catch((error) => {
+            console.error('Comments loading failed:', error);
+            $scope.comments = [];
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            }
+        })
     }
     $scope.closeModal = () => {
         $location.path(`/menu`, false);

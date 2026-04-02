@@ -14,11 +14,11 @@ import { MenuApi } from 'api'
 // import 'angular-material'
 import 'style/main.scss'
 
-let menuList = [];
+let menuList = false;
 // setTimeout(() => console.log('hello'), 0)
 
 setTimeout(() => {
-
+  menuList = [];
   MenuApi.getMenu()
     .then(data => {
         data.values.forEach((row, index) => {
