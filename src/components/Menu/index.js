@@ -33,33 +33,32 @@ export default function Menu($scope, $timeout, menu, $route, $rootScope, $locati
         return original.apply($location, [path]);
     };
     
-    $scope.get = (() => { 
+    $scope.get = (() => {
         if ($scope.menuList == false) {
             $scope.menuList = [];
             MenuApi.getMenu()
                 .then(data => {
-                    data.feed.entry.forEach(function(x, i, arr) {
-                        if (!((i+1)%11)) {
-                            let prod = {};
-                            prod['day7'] = arr[i]['gs$cell']['$t'];
-                            prod['day6'] = arr[i-1]['gs$cell']['$t'];
-                            prod['day5'] = arr[i-2]['gs$cell']['$t'];
-                            prod['day4'] = arr[i-3]['gs$cell']['$t'];
-                            prod['day3'] = arr[i-4]['gs$cell']['$t'];
-                            prod['day2'] = arr[i-5]['gs$cell']['$t'];
-                            prod['day1'] = arr[i-6]['gs$cell']['$t'];
-                            prod['price'] = arr[i-7]['gs$cell']['$t'];
-                            prod['img'] = arr[i-8]['gs$cell']['$t'];
-                            prod['description'] = arr[i-9]['gs$cell']['$t'];
-                            prod['name'] = arr[i-10]['gs$cell']['$t'];
-                            $scope.menuList.push(prod);
-                        }
+                    data.values.forEach(function(row, index) {
+                        if (index === 0) return; // skip header row
+                        let prod = {
+                            name: row[0],
+                            description: row[1],
+                            img: row[2],
+                            price: row[3],
+                            day1: row[4],
+                            day2: row[5],
+                            day3: row[6],
+                            day4: row[7],
+                            day5: row[8],
+                            day6: row[9],
+                            day7: row[10]
+                        };
+                        $scope.menuList.push(prod);
                     })
-                    $scope.menuList.splice(0,1)
                     $scope.$apply();
                 })
                 .catch(errors => { console.log(errors) })
-        }   
+        }
     })()
     $scope.basketItemsOnload = (() => {
         $scope.basket = JSON.parse(localStorage.getItem('basket-data'));
